@@ -31,15 +31,16 @@ namespace AyberkInterview.Controllers
             {
                 _studentDbContext.Add(student);
                 _studentDbContext.SaveChanges();
+                TempData["Message"] = "Student created successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
 
         [HttpGet]
-        public IActionResult Edit(Student student)
+        public IActionResult Edit(int id)
         {
-            var _student = _studentDbContext.Students.FirstOrDefault(p => p.Id == student.Id);
+            var _student = _studentDbContext.Students.FirstOrDefault(p => p.Id == id);
             if (_student == null)
             {
                 //return NotFound();
@@ -49,15 +50,33 @@ namespace AyberkInterview.Controllers
             return View(_student);
         }
         [HttpPost]
-        public IActionResult SaveEdit(Student student)
+        public IActionResult Edit(Student student)
         {
             if (ModelState.IsValid)
             {
                 _studentDbContext.Update(student);
                 _studentDbContext.SaveChanges();
+                TempData["Message"] = "Student updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
+            TempData["ErrorMessage"] = "Student not found!";
             return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            //Before delete ask for confirmation
+            var student = _studentDbContext.Students.Find(id);
+            if (student == null)
+            {
+                TempData["ErrorMessage"] = "Student not found!";
+                return NotFound();
+            }
+            _studentDbContext.Students.Remove(student); 
+            _studentDbContext.SaveChanges();
+            TempData["Message"] = "Student deleted successfully!";
+            return RedirectToAction("Index"); 
         }
 
     }
