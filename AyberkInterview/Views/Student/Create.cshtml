@@ -1,0 +1,30 @@
+﻿@model AyberkInterview.Models.Student
+@{
+    Layout = "_Layout";
+}
+
+<h1>Create Student</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="FirstName">First Name:</label>
+         @Html.TextBoxFor(m => m.FirstName)
+       @*  <input asp-for="FirstName" class="form-control" /> *@
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName">Last Name:</label>
+        @Html.TextBoxFor(m => m.LastName)
+        @* <input asp-for="LastName" class="form-control" /> *@
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Age">Age:</label>
+        @Html.TextBoxFor(m => m.Age, new { type = "number", min = "0", step = "1" })
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

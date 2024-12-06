@@ -1,0 +1,29 @@
+﻿@model AyberkInterview.Models.Student
+@{
+    Layout = "_Layout";
+}
+
+<h2>Edit Student(@Model.FirstName)</h2>
+
+
+<form asp-action="SaveEdit" method="post">
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName,"First Name")
+        @Html.TextBoxFor(model => model.FirstName)
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, "Last Name")
+        @Html.TextBoxFor(model => model.LastName)
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Age, "Age")
+        @Html.TextBoxFor(model => model.Age, new { type = "number", min = "0", step = "1" })
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
