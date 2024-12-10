@@ -17,4 +17,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StudentManagementBUS\StudentManagementBUS.csproj" />
+    <ProjectReference Include="..\StudentManagementDAL\StudentManagementDAL.csproj" />
+  </ItemGroup>
+
 </Project>

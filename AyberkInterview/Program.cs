@@ -1,14 +1,18 @@
-using AyberkInterview.DataAccessLayers;
+
 using Microsoft.EntityFrameworkCore;
+using StudentManagementBUS.StudentDal;
+using StudentManagementDAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<StudentDbContext>(options =>
+builder.Services.AddScoped<StudentService>();
+builder.Services.AddDbContext<StudentDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
+
 
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.BulkExtensions" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StudentManagementDAL\StudentManagementDAL.csproj" />
+    <ProjectReference Include="..\StudentManagementMODELS\StudentManagementMODELS.csproj" />
+  </ItemGroup>
+
+</Project>

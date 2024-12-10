@@ -1,20 +1,24 @@
-﻿using AyberkInterview.DataAccessLayers;
-using AyberkInterview.Models;
+﻿
 using Microsoft.AspNetCore.Mvc;
+using StudentManagementBUS.StudentDal;
+using StudentManagementDAL.Data;
+using StudentManagementMODELS.Models;
 
 namespace AyberkInterview.Controllers
 {
     public class StudentController : Controller
     {
-        public StudentDbContext _studentDbContext;
-        public StudentController(StudentDbContext context)
+        private readonly StudentDBContext _studentDbContext;
+        private readonly StudentService _studentService;
+        public StudentController(StudentDBContext context , StudentService studentService)
         {
             _studentDbContext = context;
+            _studentService = studentService;
         }
 
         public IActionResult Index()
-        {
-           var students = _studentDbContext.Students.ToList();
+        {           
+           var students = _studentService.GetAllStudents();
            return View(students);
         }
 
@@ -29,8 +33,7 @@ namespace AyberkInterview.Controllers
         {
             if (ModelState.IsValid)
             {
-                _studentDbContext.Add(student);
-                _studentDbContext.SaveChanges();
+                _studentService.AddStudent(student);
                 TempData["Message"] = "Student created successfully!";
                 return RedirectToAction(nameof(Index));
             }
@@ -40,7 +43,7 @@ namespace AyberkInterview.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var _student = _studentDbContext.Students.FirstOrDefault(p => p.Id == id);
+            var _student = _studentService.GetStudentById(id);
             if (_student == null)
             {
                 //return NotFound();
@@ -54,8 +57,7 @@ namespace AyberkInterview.Controllers
         {
             if (ModelState.IsValid)
             {
-                _studentDbContext.Update(student);
-                _studentDbContext.SaveChanges();
+                ;_studentService.UpdateStudent(student);
                 TempData["Message"] = "Student updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
@@ -66,15 +68,12 @@ namespace AyberkInterview.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            //Before delete ask for confirmation
-            var student = _studentDbContext.Students.Find(id);
-            if (student == null)
+            var result = _studentService.DeleteStudent(id);
+            if (!result)
             {
                 TempData["ErrorMessage"] = "Student not found!";
                 return NotFound();
             }
-            _studentDbContext.Students.Remove(student); 
-            _studentDbContext.SaveChanges();
             TempData["Message"] = "Student deleted successfully!";
             return RedirectToAction("Index"); 
         }
