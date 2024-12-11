@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudentManagementMODELS.Models;
+using StudentManagementDAL.Models;
 
 namespace StudentManagementDAL.Data
 {
@@ -8,7 +8,11 @@ namespace StudentManagementDAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().HasIndex(e => e.Id);
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>()
+               .HasOne(s => s.University)
+               .WithMany(u => u.Students)
+               .HasForeignKey(s => s.UniversityId);
+            //base.OnModelCreating(modelBuilder);
         }
         public StudentDBContext(DbContextOptions<StudentDBContext> options) : base(options)
         {
@@ -17,5 +21,7 @@ namespace StudentManagementDAL.Data
 
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<University> Universities { get; set; }
     }
 }

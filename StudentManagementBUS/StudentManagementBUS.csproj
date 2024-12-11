@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudentManagementDAL\StudentManagementDAL.csproj" />
-    <ProjectReference Include="..\StudentManagementMODELS\StudentManagementMODELS.csproj" />
   </ItemGroup>
 
 </Project>

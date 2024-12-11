@@ -7,7 +7,7 @@ using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using StudentManagementDAL.Data;
-using StudentManagementMODELS.Models;
+using StudentManagementDAL.Models;
 
 namespace StudentManagementBUS.StudentDal
 {

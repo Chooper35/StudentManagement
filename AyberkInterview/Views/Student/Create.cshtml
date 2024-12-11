@@ -1,11 +1,27 @@
-﻿@model StudentManagementMODELS.Models.Student
+﻿@model StudentManagementDAL.Models.Student
 @{
     Layout = "_Layout";
 }
 <h1 class="text-center my-4">Create Student</h1>
 
 <div class="container">
-    <form asp-action="Create" method="post">
+    <form id="uploadForm" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="StudentId" value="@ViewData["StudentId"]" />
+        <div class="form-group">
+            <label for="upload" class="font-weight-bold">Upload CV:</label>
+            <div class="input-group">
+                <input type="file" id="upload" name="file" class="form-control" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="fa fa-upload"></i> Upload
+                    </button>
+                </div>
+            </div>
+            <span id="fileError" class="text-danger"></span>
+        </div>
+    </form>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="FirstName" class="font-weight-bold">First Name:</label>
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Enter first name" })
@@ -29,3 +45,30 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#uploadForm").submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/Document/upload', // Upload action URL
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        var fileId = response.fileId;
+                        // Handle the successful response (e.g., display a success message)
+                        alert('File uploaded successfully!');
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                        $("#fileError").text('File upload failed. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagementBUS.StudentDal;
 using StudentManagementDAL.Data;
-using StudentManagementMODELS.Models;
+using StudentManagementDAL.Models;
 
 namespace AyberkInterview.Controllers
 {
@@ -31,13 +31,19 @@ namespace AyberkInterview.Controllers
         [HttpPost]
         public IActionResult Create(Student student)
         {
-            if (ModelState.IsValid)
+            student.UniversityId = 1;
+            try
             {
                 _studentService.AddStudent(student);
                 TempData["Message"] = "Student created successfully!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("UploadDocument", new { StudentId = student.Id });
+                //return RedirectToAction(nameof(Index));
+
             }
-            return View(student);
+            catch (Exception ex) {
+
+                return View(student);
+            }
         }
 
         [HttpGet]
@@ -55,9 +61,9 @@ namespace AyberkInterview.Controllers
         [HttpPost]
         public IActionResult Edit(Student student)
         {
-            if (ModelState.IsValid)
+            if (student.Id != 0)
             {
-                ;_studentService.UpdateStudent(student);
+                _studentService.UpdateStudent(student);
                 TempData["Message"] = "Student updated successfully!";
                 return RedirectToAction(nameof(Index));
             }

@@ -1,7 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace StudentManagementMODELS.Models
+namespace StudentManagementDAL.Models
 {
     public class Student
     {
@@ -18,10 +23,17 @@ namespace StudentManagementMODELS.Models
         public int Age { get; set; }
 
         // Foreign Key
-        //public int UniversityId { get; set; }
+        public int UniversityId { get; set; } = 1;
 
         //// Navigation property
-        //[ForeignKey("UniversityId")]
-        //public University University { get; set; }
+        [ForeignKey("UniversityId")]
+        public University University { get; set; }
+
+        // Foreign Key to Document (CV)
+        public int? DocumentId { get; set; }
+
+        // Navigation property
+        [ForeignKey("DocumentId")]
+        public Document Document { get; set; }
     }
 }
